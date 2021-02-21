@@ -10,8 +10,9 @@ public class Main {
             Connection con = Connector.connect();
             DBOperations.add(con,"Pepa","Motif");
             DBOperations.add(con,"Lojza","Mojza");
+            DBOperations.remove(con,"Pepa","Motif");
+            DBOperations.remove(con,"Lojza","Mojza");
             DBOperations.add(con, "Ondra", "Urbi");
-            DBOperations.remove(con,"Ondra","Urbi");
             DBOperations.printAll(con);
         }
     }
