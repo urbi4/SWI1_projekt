@@ -1,7 +1,9 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -9,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -20,11 +23,13 @@ public class Controller implements Initializable {
     @FXML
     private TextField input;
     @FXML
-    private Button addButton;
+    private TextField input1;
     @FXML
     private TableView<Person> table;
     @FXML
     private TableColumn<Person, String> column;
+    @FXML
+    private Button button;
 
     private Connection connection;
 
@@ -37,10 +42,8 @@ public class Controller implements Initializable {
         for (String s : temp) {
             list.add(new Person(s));
         }
-   //     column = new TableColumn<Person, String>("name");
+
         column.setCellValueFactory(new PropertyValueFactory<Person, String>("name"));
-   //     column.setCellValueFactory(new PropertyValueFactory<Person, String>("name"));
-    //    table = new TableView<Person>();
         table.setItems(list);
     }
 
@@ -58,4 +61,27 @@ public class Controller implements Initializable {
         list.add(new Person(name));
         DBOperations.add(connection, name);
     }
+
+    public void remove(){
+        String name = input1.getText();
+        if(name == null){
+            return;
+        }
+        input1.setText("");
+        for (Person person : list){
+            if(person.getName().equals(name)){
+                list.remove(name);
+                DBOperations.remove(connection,name);
+            }
+        }
+       return;
+    }
+
+    public void closeButton(ActionEvent event){
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
+        Platform.exit();
+    }
+
+
 }

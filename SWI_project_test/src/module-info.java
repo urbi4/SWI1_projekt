@@ -1,6 +1,5 @@
-module UI.project.SWI1 {
+module SWI.project.test {
 
-    requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;

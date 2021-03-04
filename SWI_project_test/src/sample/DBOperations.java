@@ -16,9 +16,9 @@ public class DBOperations {
         }
     }
 
-    public static void remove(Connection con,String name, String surname){
+    public static void remove(Connection con,String name){
         try{
-            String s = "Delete from customer where name = '"+name+"' AND surname = '"+surname+"';";
+            String s = "Delete from customer where name = '"+name+"';";
             PreparedStatement preparedStatement = con.prepareStatement(s);
             preparedStatement.execute();
 
