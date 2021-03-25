@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane focusTraversable="true" prefHeight="400.0" prefWidth="600.0" style="" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <AnchorPane layoutX="15.0" layoutY="81.0" style="">
+         <children>
+            <TableView fx:id="table" layoutX="14.0" layoutY="-3.0" prefHeight="277.0" prefWidth="550.0" style="">
+              <columns>
+                <TableColumn fx:id="columnName" prefWidth="66.39999580383301" text="Name" />
+                  <TableColumn fx:id="columnSurname" prefWidth="81.79998016357422" text="Surname" />
+                  <TableColumn fx:id="columnAddress" prefWidth="119.0" text="Address" />
+                  <TableColumn fx:id="columnPhone" prefWidth="100.5999755859375" text="Phone" />
+                  <TableColumn fx:id="columnDate" prefWidth="71.4000244140625" text="Date" />
+                  <TableColumn fx:id="columnTime" prefWidth="111.60000610351562" text="Time" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <Label layoutX="201.0" layoutY="15.0" prefHeight="39.0" prefWidth="159.0" text="Reservation ">
+         <font>
+            <Font name="System Bold" size="27.0" />
+         </font>
+      </Label>
+      <Button fx:id="button" layoutX="552.0" layoutY="9.0" mnemonicParsing="false" onAction="#closeButton" prefHeight="26.0" prefWidth="28.0" text="X" />
+      <ImageView fitHeight="55.0" fitWidth="63.0" layoutX="42.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" style="">
+         <image>
+            <Image url="@../../../image_logo.png" />
+         </image>
+            </ImageView>
+      <Button fx:id="changeButton" layoutX="390.0" layoutY="22.0" mnemonicParsing="false" onAction="#changeScenes" text="Reservate" />
+      <Button fx:id="removeButton" layoutX="467.0" layoutY="22.0" mnemonicParsing="false" onAction="#remove" prefHeight="26.0" prefWidth="67.0" text="Remove" />
+      <Button fx:id="edit" layoutX="117.0" layoutY="23.0" mnemonicParsing="false" onAction="#edit" text="Edit" />
+      <Button fx:id="refreshButton" layoutX="263.0" layoutY="359.0" mnemonicParsing="false" onAction="#refresh" prefHeight="26.0" prefWidth="67.0" text="Refresh" />
+   </children>
+</AnchorPane>

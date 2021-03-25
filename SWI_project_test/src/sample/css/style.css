@@ -1,0 +1,31 @@
+.button{
+    -fx-font: 16px "Arial";
+    -fx-text-fill: text-primary-color;
+    -fx-padding: 5;
+    -fx-background-color: accent-color;
+    -fx-effect: dropshadow(one-pass-box,black,14,0.0,6,0);
+    -fx-background-radius: 8;
+}
+#successText{
+    -fx-font: 16px "Arial";
+    -fx-background-color: green;
+}
+.table-view{
+    -fx-background-radius: 30;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: grey;
+    -fx-background-radius: 30;
+    -fx-background-insets: 0 0 10 0;
+    -fx-padding: 0 0 10 0;
+    -fx-effect: dropshadow(two-pass-box,dodgerblue,15,0.0,0.1,3);
+}
+.table-view .column-header .table-view .filter{
+    -fx-size: 40;
+    -fx-border-width: 0 0 10 0;
+    -fx-background-color: transparent;
+}
+.table-view .column-header .label{
+    -fx-text-fill: white;
+}
