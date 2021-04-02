@@ -1,0 +1,18 @@
+package eng.task{
+interface Parseable {
++  parse (param : String) :   void
+}
+class Id {
+- id :  int
++ getId() :  int
+}
+class Record {
++ format() :  String
++ parse( param : String) :  void
++ updateId( newId : int) void
++ updateId( newId : int, boolean : forceUpdate) : void
+}
+
+ Record --|> Id
+ Record ..|> Parseable
+}
