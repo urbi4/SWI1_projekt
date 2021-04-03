@@ -34,8 +34,8 @@ public class SceneManager {
     public static void changeScene(String fxml) throws Exception{
         try {
             Parent root = FXMLLoader.load(Main.class.getResource(fxml));
-            Stage stage = new Stage();
-            stage.initStyle(StageStyle.UNDECORATED);
+            //Stage stage = new Stage();
+            //stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root,600,650));
             stage.show();
         }catch (Exception e){
