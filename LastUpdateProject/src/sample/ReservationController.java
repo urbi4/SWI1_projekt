@@ -4,14 +4,9 @@ package sample;
         import javafx.collections.FXCollections;
         import javafx.collections.ObservableList;
         import javafx.fxml.FXML;
-        import javafx.fxml.FXMLLoader;
         import javafx.fxml.Initializable;
-        import javafx.scene.Node;
-        import javafx.scene.Parent;
         import javafx.scene.control.*;
         import javafx.scene.layout.GridPane;
-        import javafx.scene.layout.VBox;
-        import javafx.util.converter.LocalTimeStringConverter;
         import sample.database.*;
 
         import java.net.URL;
@@ -144,16 +139,16 @@ public class ReservationController implements Initializable {
 
     }
 
-    public void save() {
+    public void saveOrder() {
         setVisibility();
-        Order order = check();
+        Order order = checkInputFromUser();
         if (order == null){return;} // CHYBA
         DBSOperations.add(connection, order);
 
 
     }
 
-    private Order check() {
+    private Order checkInputFromUser() {
         String name = this.name.getText();
         String surname = this.surname.getText();
         String street = this.street.getText();
@@ -212,7 +207,7 @@ public class ReservationController implements Initializable {
 
         time = time.substring(0,time.indexOf('-')) + ":00";
         LocalTime newTime = LocalTime.parse(time, DateTimeFormatter.ISO_LOCAL_TIME);
-        return new Order(localDate,person,vehicle,checkBoxes,newTime);
+        return new Order(localDate,person,vehicle,checkBoxes,newTime,null);
 
 
     }
@@ -230,7 +225,7 @@ public class ReservationController implements Initializable {
         return result.toArray(new String[0]);
     }
 
-    public void changeScene() throws Exception {
+    public void changeSceneToTable() throws Exception {
         SceneManager.changeScene("table.fxml");
     }
 

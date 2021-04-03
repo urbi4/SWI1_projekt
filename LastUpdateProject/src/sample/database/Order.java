@@ -8,14 +8,16 @@ public class Order {
     private Person person;
     private Vehicle vehicle;
     private String[] problems;
-    private LocalTime timeRange;
+    private LocalTime timeOfStart;
+    private LocalTime timeOfEnd;
 
-    public Order(LocalDate date, Person person, Vehicle vehicle, String[] problems, LocalTime timeRange) {
+    public Order(LocalDate date, Person person, Vehicle vehicle, String[] problems, LocalTime timeOfStart, LocalTime timeOfEnd) {
         this.date = date;
         this.person = person;
         this.vehicle = vehicle;
         this.problems = problems;
-        this.timeRange = timeRange;
+        this.timeOfStart = timeOfStart;
+        this.timeOfEnd = timeOfEnd;
     }
 
     public LocalDate getDate() {
@@ -34,7 +36,11 @@ public class Order {
         return problems;
     }
 
-    public LocalTime getTimeRange() {
-        return timeRange;
+    public LocalTime getTimeOfStart() {
+        return timeOfStart;
+    }
+
+    public LocalTime getTimeOfEnd() {
+        return timeOfEnd;
     }
 }

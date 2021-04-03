@@ -33,19 +33,19 @@ public class Controller implements Initializable {
     @FXML
     private TextField input1;
     @FXML
-    private TableView<Person> table;
+    private TableView<TableDisplayStructure> table;
     @FXML
-    private TableColumn<Person, String> columnName;
+    private TableColumn<TableDisplayStructure, String> columnName;
     @FXML
-    private TableColumn<Person, String> columnSurname;
+    private TableColumn<TableDisplayStructure, String> columnSurname;
     @FXML
-    private TableColumn<Person, String> columnAddress;
+    private TableColumn<TableDisplayStructure, String> columnPhoneNumber;
     @FXML
-    private TableColumn<Person, Integer> columnPhone;
+    private TableColumn<TableDisplayStructure, String> columnPlateNumber;
     @FXML
-    private TableColumn<Person, String> columnDate;
+    private TableColumn<TableDisplayStructure, String> columnDate;
     @FXML
-    private TableColumn<Person, String> columnTime;
+    private TableColumn<TableDisplayStructure, String> columnTime;
     @FXML
     private Button button;
     @FXML
@@ -56,17 +56,17 @@ public class Controller implements Initializable {
     private Connection connection;
 
     @FXML
-    private ObservableList<Person> list = FXCollections.observableArrayList();
+    private ObservableList<TableDisplayStructure> list = FXCollections.observableArrayList();
 
-    private ObservableList<Person> refreshList = FXCollections.observableArrayList();
+    private ObservableList<TableDisplayStructure> refreshList = FXCollections.observableArrayList();
 
-    private static ObservableList<Person> selectedPerson = FXCollections.observableArrayList();
+    private static ObservableList<TableDisplayStructure> selectedPerson = FXCollections.observableArrayList();
 
-    public static ObservableList<Person> getSelectedPerson() {
+    public static ObservableList<TableDisplayStructure> getSelectedPerson() {
         return selectedPerson;
     }
 
-    public static void setSelectedPerson(ObservableList<Person> selectedPerson) {
+    public static void setSelectedPerson(ObservableList<TableDisplayStructure> selectedPerson) {
         Controller.selectedPerson = selectedPerson;
     }
 
@@ -77,23 +77,18 @@ public class Controller implements Initializable {
 //        for (Person person : temp) {
 //            list.add(person);
 //        }
-        columnName.setCellValueFactory(new PropertyValueFactory<Person, String>("name"));
-        columnSurname.setCellValueFactory(new PropertyValueFactory<Person, String>("surname"));
-        columnAddress.setCellValueFactory(new PropertyValueFactory<Person, String>("address"));
-        columnPhone.setCellValueFactory(new PropertyValueFactory<Person, Integer>("phone"));
-        columnDate.setCellValueFactory(new PropertyValueFactory<Person, String>("date"));
-        columnTime.setCellValueFactory(new PropertyValueFactory<Person, String>("time"));
+        columnName.setCellValueFactory(new PropertyValueFactory<TableDisplayStructure, String>("name"));
+        columnSurname.setCellValueFactory(new PropertyValueFactory<TableDisplayStructure, String>("surname"));
+        columnPlateNumber.setCellValueFactory(new PropertyValueFactory<TableDisplayStructure, String>("plateNumber"));
+        columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<TableDisplayStructure, String>("phoneNumber"));
+        columnDate.setCellValueFactory(new PropertyValueFactory<TableDisplayStructure, String>("date"));
+        columnTime.setCellValueFactory(new PropertyValueFactory<TableDisplayStructure, String>("timeRange"));
         table.setItems(list);
     }
 
-    public void changeScenes() throws Exception {
+    public void changeSceneToReservation() throws Exception {
         SceneManager.changeScene("reservation.fxml");
     }
-//
-//    public void changeScenes1() throws Exception {
-//        Main m = new Main();
-//        m.changeScene("edit.fxml");
-//    }
 
     public void closeButton(ActionEvent event) {
         Stage stage = (Stage) button.getScene().getWindow();
@@ -103,39 +98,32 @@ public class Controller implements Initializable {
 
     public void refresh() {
         refreshList.clear();
-        ObservableList<Person> result = FXCollections.observableArrayList();
-       // ArrayList<Person> temp = DBSOperations.getList(connection);
-//        for (Person person : temp) {
-//            refreshList.add(person);
-//        }
-        if (list.size() < refreshList.size()) {
-            Person person = refreshList.get(refreshList.size() - 1);
-            result.add(person);
-            for (Person person1 : list) {
-                result.add(person1);
-            }
-            table.setItems(result);
-        } else return;
+        ArrayList<TableDisplayStructure> temp = DBSOperations.getList(connection);
+        for (TableDisplayStructure tds : temp) {
+            refreshList.add(tds);
+        }
+        table.setItems(refreshList);
     }
 
+    //TODO
     public void edit() throws Exception {
-        ObservableList<Person> personSelected;
+        ObservableList<TableDisplayStructure> personSelected;
         personSelected = table.getSelectionModel().getSelectedItems();
         if (personSelected.isEmpty()) return;
         selectedPerson.add(personSelected.get(0));
         setSelectedPerson(selectedPerson);
-//        changeScenes1();
+        changeSceneToReservation();
     }
 
-
+    //TODO
     public void remove() {
-        ObservableList<Person> personSelected, allPersons;
+        ObservableList<TableDisplayStructure> personSelected, allPersons;
         allPersons = table.getItems();
         personSelected = table.getSelectionModel().getSelectedItems();
         if (personSelected.isEmpty()) return;
         personSelected.forEach(allPersons::remove);
         list.remove(personSelected);
-        DBSOperations.remove(connection, personSelected.get(0));
+        //DBSOperations.remove(connection, personSelected.get(0));
     }
 }
 
