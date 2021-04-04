@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -17,7 +16,7 @@ public class SceneManager {
         stage = primarystage;
         FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("table.fxml"));
         Parent root = loader.load();
-        Controller controller = loader.getController();
+        TableController controller = loader.getController();
         stage.setTitle("Registrace objednávky");
         stage.setScene(new Scene(root, 600, 600));
         stage.show();

@@ -122,7 +122,7 @@ public class ReservationController implements Initializable {
     @FXML
     private Label wrongTime;
 
-
+    private Order orderToLoad;
     private ObservableList<String> toAdd;
     private ObservableList<String> choose;
     private Connection connection;
@@ -130,7 +130,7 @@ public class ReservationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         connection = Connector.connect();
-
+        this.orderToLoad = TableController.getSelectedOrder();
         toAdd = FXCollections.observableArrayList(DBSOperations.getTimes(connection));
         list.setItems(toAdd);
         choose = FXCollections.observableArrayList(DBSOperations.getTypes(connection));
@@ -144,8 +144,6 @@ public class ReservationController implements Initializable {
         Order order = checkInputFromUser();
         if (order == null){return;} // CHYBA
         DBSOperations.add(connection, order);
-
-
     }
 
     private Order checkInputFromUser() {
@@ -162,7 +160,7 @@ public class ReservationController implements Initializable {
         String phone = this.phone.getText();
 
         LocalDate localDate = date.getValue();
-        String[] checkBoxes = getCheckboxes();
+        ArrayList<String> checkBoxes = getCheckboxes();
 
         LocalDate timeNow = LocalDate.now();
 
@@ -207,12 +205,11 @@ public class ReservationController implements Initializable {
 
         time = time.substring(0,time.indexOf('-')) + ":00";
         LocalTime newTime = LocalTime.parse(time, DateTimeFormatter.ISO_LOCAL_TIME);
-        return new Order(localDate,person,vehicle,checkBoxes,newTime,null);
-
+        return new Order(null,localDate,person,vehicle,checkBoxes,newTime,null);
 
     }
 
-    private String[] getCheckboxes() {
+    private ArrayList<String> getCheckboxes() {
         ArrayList<CheckBox> checkBoxes = new ArrayList<>();
         String[] names = {"PNEU","OIL","BATTERY","AC","WIPER","COMPLETE","GEOMETRY"}; //LINK NA DB ?
         checkBoxes.addAll(Arrays.asList(pneuCB, oilCB, batCB, acCB, wipCB, comCB, geoCB));
@@ -222,7 +219,7 @@ public class ReservationController implements Initializable {
                 result.add(names[i]);
             }
         }
-        return result.toArray(new String[0]);
+        return result;
     }
 
     public void changeSceneToTable() throws Exception {

@@ -32,17 +32,6 @@ public class DBSOperations {
         }
     }
 
-    public static void addOld(Connection con, String name, int age){
-        try {
-            Statement statement = con.createStatement();
-            String s = "Insert into person values('" + name + "'," + age + " );";
-            PreparedStatement preparedStmt = con.prepareStatement(s);
-            preparedStmt.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
     public static String[] getTimes(Connection connection){
         ArrayList<String> export = new ArrayList<>();
         try {
@@ -77,12 +66,28 @@ public class DBSOperations {
         return export.toArray(new String[0]);
     }
 
-    public static ArrayList<TableDisplayStructure> getList(Connection con){
-        ArrayList<TableDisplayStructure> export = new ArrayList<>();
+    public static ArrayList<String> getProblems(Connection con, Integer id){
+        ArrayList<String> export = new ArrayList<>();
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Orders JOIN Person ON (Person_id=Person.id) JOIN Address ON (Address_id=Address.id) JOIN TimeRange ON (TimeRange_id=TimeRange.id) JOIN Vehicle ON (Vehicle_id=Vehicle.id) JOIN VehicleType ON (VehicleType_id=VehicleType.id)");
+            ResultSet rs = stmt.executeQuery("SELECT * from (SELECT id from Orders where id='" + id + "') as O JOIN Orders_has_Problem ON (O.id=Orders_id) JOIN Problem ON (Problem.id=Problem_id)");
             while (rs.next()) {
+                String problem = rs.getString("description");
+                export.add(problem);
+            }
+        }catch(SQLException throwables){
+            throwables.printStackTrace();
+        }
+        return export;
+    }
+
+    public static ArrayList<Order> getList(Connection con, LocalDate date){
+        ArrayList<Order> export = new ArrayList<>();
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM (SELECT * from Orders where date='" + date.format(DateTimeFormatter.ISO_LOCAL_DATE) + "') AS o JOIN Person ON (Person_id=Person.id) JOIN Address ON (Address_id=Address.id) JOIN TimeRange ON (TimeRange_id=TimeRange.id) JOIN Vehicle ON (Vehicle_id=Vehicle.id) JOIN VehicleType ON (VehicleType_id=VehicleType.id)");
+            while (rs.next()) {
+                String id = rs.getString("id");
                 String name = rs.getString("name");
                 String surname = rs.getString("surname");
                 String phoneNumber = rs.getString("phoneNumber");
@@ -91,15 +96,16 @@ public class DBSOperations {
                 String street = rs.getString("street");
                 String city = rs.getString("city");
                 String plateNumber = rs.getString("plateNumber");
+                String vehicleType = rs.getString("description");
                 LocalTime timeOfStart = LocalTime.parse(rs.getString("timeOfStart"),DateTimeFormatter.ISO_LOCAL_TIME);
                 LocalTime timeOfEnd = LocalTime.parse(rs.getString("timeOfEnd"),DateTimeFormatter.ISO_LOCAL_TIME);
                 LocalDate localDate = LocalDate.parse(rs.getString("date"),DateTimeFormatter.ISO_LOCAL_DATE);
 
-                Vehicle vehicle = new Vehicle(plateNumber,"VAN");
+                Vehicle vehicle = new Vehicle(plateNumber,vehicleType);
                 Address address = new Address(city,street,houseNumber);
                 Person person = new Person(name,surname,phoneNumber,email,address);
-                Order order = new Order(localDate,person,vehicle,null,timeOfStart,timeOfEnd);
-                export.add(new TableDisplayStructure(order));
+                Order order = new Order(Integer.valueOf(id),localDate,person,vehicle,null,timeOfStart,timeOfEnd);
+                export.add(order);
             }
         }catch(SQLException throwables){
             throwables.printStackTrace();
