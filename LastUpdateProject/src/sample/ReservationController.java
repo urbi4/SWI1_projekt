@@ -129,12 +129,16 @@ public class ReservationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        connection = Connector.connect();
+        this.connection = Connector.connect();
         this.orderToLoad = TableController.getSelectedOrder();
-        toAdd = FXCollections.observableArrayList(DBSOperations.getTimes(connection));
-        list.setItems(toAdd);
-        choose = FXCollections.observableArrayList(DBSOperations.getTypes(connection));
-        chooseBox.getItems().addAll(choose);
+        this.toAdd = FXCollections.observableArrayList();
+        this.list.setItems(toAdd);
+        this.choose = FXCollections.observableArrayList(DBSOperations.getTypes(connection));
+        this.chooseBox.getItems().addAll(choose);
+        this.date.valueProperty().addListener(observable -> {
+            toAdd = FXCollections.observableArrayList(DBSOperations.getAvailableTimes(connection,date.getValue()));
+            list.setItems(toAdd);
+        });
         setVisibility();
 
     }
@@ -200,6 +204,7 @@ public class ReservationController implements Initializable {
         }
 
         Address address = new Address(city,street,houseNumber);
+        phone = phone.substring(4);
         Person person = new Person(name,surname,phone,email,address);
         Vehicle vehicle = new Vehicle(plate, type);
 

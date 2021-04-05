@@ -112,11 +112,17 @@ public class TableController implements Initializable {
 
     //TODO
     public void remove() {
-        ObservableList<TableDisplayStructure> personSelected, allPersons;
-        allPersons = table.getItems();
-        personSelected = table.getSelectionModel().getSelectedItems();
-        if (personSelected.isEmpty()) return;
-        personSelected.forEach(allPersons::remove);
+            setSelectedOrder();
+            if (getSelectedOrder() == null){
+                return;
+            }
+            DBSOperations.remove(connection,getSelectedOrder());
+            refresh();
+//        ObservableList<TableDisplayStructure> personSelected, allPersons;
+//        allPersons = table.getItems();
+//        personSelected = table.getSelectionModel().getSelectedItems();
+//        if (personSelected.isEmpty()) return;
+//        personSelected.forEach(allPersons::remove);
         //list.remove(personSelected);
         //DBSOperations.remove(connection, personSelected.get(0));
     }
