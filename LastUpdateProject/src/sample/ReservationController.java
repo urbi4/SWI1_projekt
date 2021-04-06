@@ -122,6 +122,17 @@ public class ReservationController implements Initializable {
     @FXML
     private Label wrongTime;
 
+    @FXML
+    private Label successOrder;
+
+    @FXML
+    private Label wrongChoice;
+
+    @FXML
+    private Label wrongEmail;
+
+
+
     private Order orderToLoad;
     private ObservableList<String> toAdd;
     private ObservableList<String> choose;
@@ -139,15 +150,34 @@ public class ReservationController implements Initializable {
             toAdd = FXCollections.observableArrayList(DBSOperations.getAvailableTimes(connection,date.getValue()));
             list.setItems(toAdd);
         });
+        manageOrderToLoad();
         setVisibility();
-
     }
+
+    private void manageOrderToLoad() {
+        if(orderToLoad == null) return;
+        setOrderToLoad(orderToLoad);
+    }
+
 
     public void saveOrder() {
         setVisibility();
         Order order = checkInputFromUser();
         if (order == null){return;} // CHYBA
+        if(orderToLoad != null) DBSOperations.remove(connection,orderToLoad);
         DBSOperations.add(connection, order);
+    }
+
+    private void setOrderToLoad(Order orderToLoad) {
+        name.setText(orderToLoad.getPerson().getName());
+        surname.setText(orderToLoad.getPerson().getSurname());
+        city.setText(orderToLoad.getPerson().getAddress().getCity());
+        street.setText(orderToLoad.getPerson().getAddress().getStreet());
+        houseNumber.setText(orderToLoad.getPerson().getAddress().getHouseNumber());
+        plate.setText(orderToLoad.getVehicle().getPlateNumber());
+        email.setText(orderToLoad.getPerson().getEmail());
+        phone.setText(orderToLoad.getPerson().getPhoneNumber());
+        chooseBox.setValue(orderToLoad.getVehicle().getVehicleType());
     }
 
     private Order checkInputFromUser() {
@@ -171,16 +201,29 @@ public class ReservationController implements Initializable {
         ArrayList<String> results = new ArrayList<>();
         results.addAll(Arrays.asList(name, surname, street, city, houseNumber, plate, time, type));
         for (String result : results) {
-            if (result.isEmpty()) {
+            if (result == null || result.isEmpty()) {
                 missingInfo.setVisible(true);
                 return null;
             }
         }
 
+//        if(!email.contains(".cz") || !email.contains(".com")){
+//            wrongEmail.setVisible(true);
+//            return null;
+//        }
+        if (!email.contains(".cz") && (!email.contains("@")) || (!email.contains(".com") && !email.contains("@"))){
+            wrongEmail.setVisible(true);
+            return null;
+        }
+
+        if(checkBoxes.isEmpty()) {
+            wrongChoice.setVisible(true);
+            return null;
+        }
+
         if(timeNow.isAfter(localDate)){
             wrongDate.setVisible(true);
             return null;
-
         }
 
         if(time == null || time.isEmpty()){
@@ -192,8 +235,7 @@ public class ReservationController implements Initializable {
             wrongNumber.setVisible(true);
             return null;
         }
-
-        if(phone.isEmpty() || phone.length() != 13 || !phone.startsWith("+420")){
+        if((phone.isEmpty() || phone.length() != 13) && (!phone.startsWith("+421") || !phone.startsWith("+420"))){
             wrongPhone.setVisible(true);
             return null;
         }
@@ -210,8 +252,8 @@ public class ReservationController implements Initializable {
 
         time = time.substring(0,time.indexOf('-')) + ":00";
         LocalTime newTime = LocalTime.parse(time, DateTimeFormatter.ISO_LOCAL_TIME);
+        successOrder.setVisible(true);
         return new Order(null,localDate,person,vehicle,checkBoxes,newTime,null);
-
     }
 
     private ArrayList<String> getCheckboxes() {
@@ -237,6 +279,9 @@ public class ReservationController implements Initializable {
         wrongDate.setVisible(false);
         wrongNumber.setVisible(false);
         wrongTime.setVisible(false);
+        successOrder.setVisible(false);
+        wrongChoice.setVisible(false);
+        wrongEmail.setVisible(false);
     }
 
 }

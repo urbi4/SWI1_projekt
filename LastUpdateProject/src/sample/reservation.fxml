@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ReservationController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ReservationController">
    <children>
       <GridPane fx:id="grid" hgap="12.0" prefHeight="503.0" prefWidth="600.0" vgap="12.0">
         <columnConstraints>
@@ -46,6 +36,7 @@
                <children>
                   <Label fx:id="emaillabel" text="Email" />
                   <TextField fx:id="email" />
+                  <Label fx:id="wrongEmail" layoutX="10.0" layoutY="10.0" text="Špatný e-mailový formát" />
                </children>
             </VBox>
             <VBox layoutX="20.0" layoutY="80.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -76,6 +67,7 @@
             </VBox>
             <VBox fx:id="checkboxes" prefHeight="206.0" prefWidth="286.0" GridPane.rowIndex="5">
                <children>
+                  <Label fx:id="wrongChoice" text="Musí být vybraná závada" />
                   <CheckBox fx:id="pneuCB" mnemonicParsing="false" text="Pneumatiky">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -151,7 +143,8 @@
          <children>
             <Button fx:id="saveButton" layoutX="231.0" layoutY="46.0" mnemonicParsing="false" onMouseClicked="#saveOrder" prefHeight="34.0" prefWidth="138.0" text="Uložit" />
             <Button fx:id="changeScene" layoutX="411.0" layoutY="51.0" mnemonicParsing="false" onMouseClicked="#changeSceneToTable" text="Zpět" />
-            <Label fx:id="missingInfo" layoutX="213.0" layoutY="14.0" text="Všechna pole musí být vyplněna!" />
+            <Label fx:id="missingInfo" layoutX="213.0" layoutY="5.0" text="Všechna pole musí být vyplněna!" />
+            <Label fx:id="successOrder" layoutX="241.0" layoutY="23.0" text="Objednávka vytvořena!" />
          </children>
       </AnchorPane>
    </children>
