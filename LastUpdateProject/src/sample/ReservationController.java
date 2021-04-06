@@ -14,9 +14,7 @@ package sample;
         import java.time.LocalDate;
         import java.time.LocalTime;
         import java.time.format.DateTimeFormatter;
-        import java.util.ArrayList;
-        import java.util.Arrays;
-        import java.util.ResourceBundle;
+        import java.util.*;
 
 public class ReservationController implements Initializable {
 
@@ -178,6 +176,25 @@ public class ReservationController implements Initializable {
         email.setText(orderToLoad.getPerson().getEmail());
         phone.setText(orderToLoad.getPerson().getPhoneNumber());
         chooseBox.setValue(orderToLoad.getVehicle().getVehicleType());
+        date.setValue(orderToLoad.getDate());
+        checkCheckboxes(orderToLoad);
+    }
+
+    private void checkCheckboxes(Order orderToLoad) {
+        Map<String, CheckBox> checkBoxes = new TreeMap<>(){{
+            put("PNEU",pneuCB);
+            put("OIL",oilCB);
+            put("BATTERY",batCB);
+            put("AC",acCB);
+            put("WIPER",wipCB);
+            put("COMPLETE",comCB);
+            put("GEOMETRY",geoCB);
+        }};
+        for (String problem : orderToLoad.getProblems()) {
+            if (checkBoxes.containsKey(problem)){
+                checkBoxes.get(problem).setSelected(true);
+            }
+        }
     }
 
     private Order checkInputFromUser() {
