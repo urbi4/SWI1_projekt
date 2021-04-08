@@ -8,7 +8,7 @@ public class Connector {
 
         Connection con = null;
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?","root","Heslo123");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?","root","Password321");
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }

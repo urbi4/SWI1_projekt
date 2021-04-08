@@ -55,6 +55,10 @@ public class TableController implements Initializable {
         return selectedOrder;
     }
 
+    public void setSelectedOrderEmpty(){
+        TableController.selectedOrder = null;
+    }
+
     public void setSelectedOrder() {
         ObservableList<TableDisplayStructure> tds = table.getSelectionModel().getSelectedItems();
         if (tds.size() != 1){
@@ -85,6 +89,7 @@ public class TableController implements Initializable {
     }
 
     public void changeSceneToReservation() throws Exception {
+        setSelectedOrderEmpty();
         SceneManager.changeScene("reservation.fxml");
     }
 
@@ -107,7 +112,8 @@ public class TableController implements Initializable {
         if (selectedOrder == null){
             return;
         }
-        changeSceneToReservation();
+        SceneManager.changeScene("reservation.fxml");
+
     }
 
     //TODO
