@@ -5,4 +5,5 @@ module LastUpdateProject {
     requires javafx.controls;
 
     opens sample;
+    opens sample.database;
 }
