@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="cz" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" rel="nofollow" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  <script src="jquery.js"></script>
+  <link rel="stylesheet" href="jquery.datetimepicker.css">
+  <script src="jquery.datetimepicker.js" type="text/javascript"></script>
+
+
+
+  <title></title>
+</head>
+
+<body>
+
+  <div class="d-flex justify-content-center">
+    <div class="w-50 p-3">
+
+        <form>
+
+          <div class="row">
+
+            <div class="col-md-4 mb-3">
+              <div class="form-group">
+                <label id="nameLabel" class="col-md-4 control-label" for="name">Jméno</label>
+                <input id="name" name="textinput" type="text" placeholder="např. Pavel" class="form-control input-md" required="">
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="surname">Příjmení</label>
+                <input id="surname" name="textinput" type="text" placeholder="např. Novák" class="form-control input-md" required="">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-4 mb-3">
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="email">Email</label>
+                <input id="email" name="email" type="text" placeholder="např. pnovak@seznam.cz" class="form-control input-md" required="">
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="phone">Telefon</label>
+                <input id="phone" name="textinput" type="text" placeholder="např. +420605605605" class="form-control input-md" required="">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 mb-3">
+
+              <div class="row">
+                <div class="col mb-3">
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="street">Ulice</label>
+                    <input id="street" name="street" type="text" placeholder="např. Hlavní" class="form-control input-md" required="">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col mb-3">
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="number">Číslo</label>
+                    <input id="number" name="number" type="text" placeholder="např. 25" class="form-control input-md" required="">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col mb-3">
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="city">Město</label>
+                    <input id="city" name="city" type="text" placeholder="např. Praha" class="form-control input-md" required="">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+              <div class="row">
+                <div class="col mb-3">
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="plate">SPZ</label>
+                    <input id="plate" name="plate" type="text" placeholder="např. 1T2 3456" class="form-control input-md" required="">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col mb-3">
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="selectbasic">Typ vozu</label>
+                    <select id="selectbasic" name="selectbasic" class="form-control">
+                      <option value="1">CAR</option>
+                      <option value="2">VAN</option>
+                      <option value="3">TRUCK</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 mb-3">
+
+              <div class="form-group">
+                <label class="col-md-4 control-label" >Problémy</label>
+                <div class="checkbox">
+                  <label for="checkboxes-0">
+                    <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
+                    Pneumatiky
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="checkboxes-1">
+                    <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
+                    Výměna oleje
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="checkboxes-2">
+                    <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
+                    Baterie
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="checkboxes-3">
+                    <input type="checkbox" name="checkboxes" id="checkboxes-3" value="4">
+                    Klimatizace
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="checkboxes-4">
+                    <input type="checkbox" name="checkboxes" id="checkboxes-4" value="5">
+                    Stěrače
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="checkboxes-5">
+                    <input type="checkbox" name="checkboxes" id="checkboxes-5" value="6">
+                    Kompletní servis
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="checkboxes-6">
+                    <input type="checkbox" name="checkboxes" id="checkboxes-6" value="7">
+                    Geometrie
+                  </label>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+          <div class="row">
+            <div class="d-flex justify-content-center">
+              <div class="col-md-4 mb-3">
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="singlebutton"></label>
+                  <div class="col-md-4">
+                    <button id="sb" type="button" name="sb" class="btn btn-primary">Uložit</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+        </form>
+
+    </div>
+  </div>
+
+<button id="sba" onclick="click()" type="button" name="sb">AAA</button>
+<script>
+function click(){
+  document.getElementById("sba").innerHTML = "YOU CLICKED ME!";
+}
+</script>
+
+</body>
+
+</html>
