@@ -22,8 +22,8 @@ public class OrderController {
         this.repository = repository;
     }
 
-    @GetMapping("/orders/all")
-    List<OrdersEntity> all() {
+    @GetMapping("/times")
+    List<OrdersEntity> getTimes(@RequestBody String date) {
 
         log.info("GetMapping /orders");
 
@@ -31,7 +31,9 @@ public class OrderController {
         log.info("Found " + ret.size() + " orders");
 
         for(OrdersEntity o : ret){
-            log.info("Order: " + o);
+            if (o.getDate().toString().equals(date)){
+                //TODO
+            }
         }
 
         return ret;
