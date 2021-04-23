@@ -4,11 +4,10 @@ import com.javatechie.crud.example.entity.OrdersEntity;
 import com.javatechie.crud.example.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -22,11 +21,12 @@ public class OrderController {
         this.repository = repository;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/times")
-    List<OrdersEntity> getTimes(@RequestBody String date) {
+    List<String> getTimes(@RequestParam(name="value", required = false, defaultValue = "default") String value){
 
-        log.info("GetMapping /orders");
-
+        log.info(value);
+/*
         List<OrdersEntity> ret = repository.findAll();
         log.info("Found " + ret.size() + " orders");
 
@@ -35,8 +35,8 @@ public class OrderController {
                 //TODO
             }
         }
-
-        return ret;
+*/
+        return new ArrayList<>(Arrays.asList("A","B","C"));
     }
 
     @PostMapping("/orders")
