@@ -1,0 +1,30 @@
+{
+    "id": 0,
+    "date": "3921-03-03",
+    "timerange": {
+        "id": 0,
+        "timeOfStart": "02:03:01",
+        "timeOfEnd": "01:01:01"
+    },
+    "person": {
+        "id": 0,
+        "name": "Name",
+        "surname": "Surname",
+        "email": "test@test.cz",
+        "phoneNumber": "777777777",
+        "address": {
+            "id": 0,
+            "houseNumber": 12,
+            "street": "30. Dubna",
+            "city": "Ostrava"
+        }
+    },
+    "vehicleEntity": {
+        "id": 0,
+        "plateNumber": "ST-123",
+        "vehicleType": {
+            "id": 0,
+            "description": "test test"
+        }
+    }
+}
