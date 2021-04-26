@@ -21,14 +21,16 @@ public class OrderController {
     private final PersonRepository personRepository;
     private final VehicleTypeRepository vehicleTypeRepository;
     private final VehicleRepository vehicleRepository;
+    private final OrdersHasProblemRepository ordersHasProblemRepository;
 
-    public OrderController(OrdersRepository repository, AddressRepository addressRepository, TimeRangeRepository timeRangeRepository, PersonRepository personRepository, VehicleTypeRepository vehicleTypeRepository, VehicleRepository vehicleRepository) {
+    public OrderController(OrdersRepository repository, AddressRepository addressRepository, TimeRangeRepository timeRangeRepository, PersonRepository personRepository, VehicleTypeRepository vehicleTypeRepository, VehicleRepository vehicleRepository, OrdersHasProblemRepository ordersHasProblemRepository) {
         this.repository = repository;
         this.addressRepository = addressRepository;
         this.timeRangeRepository = timeRangeRepository;
         this.personRepository = personRepository;
         this.vehicleTypeRepository = vehicleTypeRepository;
         this.vehicleRepository = vehicleRepository;
+        this.ordersHasProblemRepository = ordersHasProblemRepository;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

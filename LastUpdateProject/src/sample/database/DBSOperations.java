@@ -22,7 +22,7 @@ public class DBSOperations {
             commands.add("Insert into orders values(DEFAULT, '" + order.getDate().format(DateTimeFormatter.ISO_LOCAL_DATE) + "', (SELECT id from timeRange where timeOfStart='" + order.getTimeOfStart().format(DateTimeFormatter.ISO_LOCAL_TIME) + "'),(SELECT max(id) from person), (SELECT max(id) from vehicle))");
 
             for (String problem : order.getProblems()) {
-                commands.add("Insert into orders_has_problem values((SELECT max(id) from Orders),(SELECT id from problem where description='" + problem + "'));");
+                commands.add("Insert into orders_has_problem values(DEFAULT,(SELECT max(id) from Orders),(SELECT id from problem where description='" + problem + "'));");
             }
 
             for (int i = 0; i < commands.size(); i++) {
