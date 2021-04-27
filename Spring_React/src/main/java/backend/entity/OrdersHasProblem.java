@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "OrderHasProblem", schema = "mydb")
+@Table(name = "OrdersHasProblem", schema = "mydb")
 public class OrdersHasProblem {
 
     @Id
@@ -19,6 +19,30 @@ public class OrdersHasProblem {
     @JoinColumn(name = "orders_id", referencedColumnName = "id")
     @ManyToOne
     private Orders orders;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Problem getProblem() {
+        return problem;
+    }
+
+    public void setProblem(Problem problem) {
+        this.problem = problem;
+    }
+
+    public Orders getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Orders orders) {
+        this.orders = orders;
+    }
 
     @Override
     public boolean equals(Object o) {

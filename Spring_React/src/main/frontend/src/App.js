@@ -171,11 +171,7 @@ class App extends React.Component {
         axios({
             method: 'post',
             url: 'http://localhost:8080/orders',
-            data: {/*
-                "description": this.state.description,
-                "date": this.state.date.toISOString(),
-                "price": this.state.price*/
-            }
+            data: this.state,
         }).then((response) => {
             console.log(response);
         }, (error) => {

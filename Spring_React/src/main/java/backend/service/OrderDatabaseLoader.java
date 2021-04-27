@@ -21,9 +21,10 @@ public class OrderDatabaseLoader implements CommandLineRunner {
     public void run(String... args) {
         log.info("Preloading Order Data");
 
-        //LocalDateTime now = LocalDateTime.now();
-        // this.repository.save(new OrdersEntity(now,"Pneumatiky",1200));
-
         log.info("Numbers of loaded orders: " + this.repository.count());
+
+
     }
+
+
 }
