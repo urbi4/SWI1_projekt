@@ -8,6 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -74,39 +76,7 @@ public class OrderController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/orders")
-    Orders getNewOrder(@RequestBody String line) {
-        //region old
-//        log.info("PostMapping /orders");
-//        log.info("newOrder " + newOrder);
-
-        // Tohle se da urcite resit efektivneji tim ze se ulozi najednou Order a vsechny navazane objekty, ted to ale
-        // nebudeme hrotit a postaci takto jednoduche reseni pres vice repository kde se postupne ulozi jednotlive
-        // objekty a potom hlavni objekt Order
-
-        // Abychom mohli ulozit Person, ktery potrebuje znat address_id potrebujeme nejprve ulozit objekt Address,
-        // kde pres autoincrement ziskame jeho ID. Jakmile objekt ulozime pres metodu save, dostaneme nacteny objekt
-        // z databaze, ktery uz bude mit ID vygenerovane.
-        // Toto address_id pote ulozime do Person tak ze jen prepiseme objet Address pres setter.
-        // uplne stejne postupujeme u objektu Vehicle, ktery potrebuje znat vehicle_type_id atd...
-        // jakmile mame ID pro vsechny objekty nastavime ID do objektu Order a ten ulozime
-
-//        Address newAddress = addressRepository.save(newOrder.getPerson().getAddress());
-//        newOrder.getPerson().setAddress(newAddress);
-//        Person newPerson = personRepository.save(newOrder.getPerson());
-//
-//        TimeRange newTimerange = timeRangeRepository.save(newOrder.getTimerange());
-//
-//        VehicleType vehicleType = vehicleTypeRepository.save(newOrder.getVehicle().getVehicleType());
-//        newOrder.getVehicle().setVehicleType(vehicleType);
-//        Vehicle newVehicle = vehicleRepository.save(newOrder.getVehicle());
-//
-//
-//        newOrder.setPerson(newPerson);
-//        newOrder.setVehicle(newVehicle);
-//        newOrder.setTimerange(newTimerange);
-//
-//        return repository.save(newOrder);
-        //endregion
+    ResponseEntity<Boolean> getNewOrder(@RequestBody String line) {
 
         JSONObject data = null;
         try {
@@ -182,13 +152,14 @@ public class OrderController {
 
             ArrayList<OrdersHasProblem> ordersHasProblemsToSave = new ArrayList<>();
             for (Integer problemsID : problemsIDs) {
+                log.info(String.valueOf(problemsID));
                 OrdersHasProblem ordersHasProblem = new OrdersHasProblem();
                 ordersHasProblem.setProblem(problemRepository.getOne(problemsID));
                 ordersHasProblem.setOrders(order);
                 ordersHasProblemsToSave.add(ordersHasProblem);
             }
 
-            log.info(order.toString());
+            log.info(ordersHasProblemsToSave.toString());
 
             addressRepository.save(address);
             personRepository.save(person);
@@ -202,7 +173,9 @@ public class OrderController {
             e.printStackTrace();
         }
 
-        return null;
+        boolean accepted = true;
+
+        return new ResponseEntity<>(accepted, HttpStatus.ACCEPTED);
     }
 
     private void check(Orders newOrder) {

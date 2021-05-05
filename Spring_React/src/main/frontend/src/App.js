@@ -32,6 +32,7 @@ class App extends React.Component {
             houseNumber: "Číslo domu",
             city: "Město",
             plate: "SPZ",
+            accepted: ""
         }
         this.errors = 0
         this.button = true
@@ -53,9 +54,8 @@ class App extends React.Component {
 
     setButton = () => {
         let empty = 0;
-
-        for(let item in this.state){
-            if (this.state[item].length === 0){
+        for (let item in this.state) {
+            if (this.state[item].length === 0) {
                 empty++;
             }
         }
@@ -149,8 +149,6 @@ class App extends React.Component {
             this.labels[name] = this.labels[name].substr(0, lengthOfLabel - 17)
             this.errors--
         }
-
-
     }
 
     getTimes(date) {
@@ -173,16 +171,25 @@ class App extends React.Component {
             url: 'http://localhost:8080/orders',
             data: this.state,
         }).then((response) => {
-            console.log(response);
+            if (response.data) {
+                this.labels.accepted = "Uloženo";
+            } else {
+                this.labels.accepted = "Nastala chyba";
+            }
+            console.log(this.labels);
+            this.errors += 100;
+            this.setButton();
+            this.forceUpdate();
         }, (error) => {
             console.log(error);
         });
+
     }
 
-    check = (e,name) => {
-        if (this.state.problems.includes(name)){
+    check = (e, name) => {
+        if (this.state.problems.includes(name)) {
             this.state.problems.splice(this.state.problems.indexOf(name))
-        }else {
+        } else {
             this.state.problems.push(name)
         }
         this.setButton()
@@ -194,7 +201,8 @@ class App extends React.Component {
             const list = data.children.map(item => <option key={item}>{item}</option>)
             return (
                 <Form.Group controlId="exampleForm.SelectCustom">
-                    <Form.Control as="select" htmlSize={5} custom style={{ width: "80%"}} onChange={(e) => this.onChange(e.target.value, 'time')} value={this.state.time}>
+                    <Form.Control as="select" htmlSize={5} custom style={{width: "80%"}}
+                                  onChange={(e) => this.onChange(e.target.value, 'time')} value={this.state.time}>
                         {list}
                     </Form.Control>
                 </Form.Group>
@@ -318,7 +326,8 @@ class App extends React.Component {
                                     <Row className="mt-3">
                                         <Form.Group id="exampleForm.ControlSelect1">
                                             <Form.Label>Typ vozidla</Form.Label>
-                                            <Form.Control as="select" onChange={(e) => this.onChange(e.target.value, 'vehicle')}>
+                                            <Form.Control as="select"
+                                                          onChange={(e) => this.onChange(e.target.value, 'vehicle')}>
                                                 <option>CAR</option>
                                                 <option>VAN</option>
                                                 <option>TRUCK</option>
@@ -332,6 +341,8 @@ class App extends React.Component {
                                                 disableClock
                                                 format="dd/MM/yyyy"
                                                 locale="cs-CS"
+                                                clearIcon={null}
+                                                minDate={new Date(Date.now())}
                                                 onChange={(e) => {
                                                     this.onChange(e, 'date')
                                                 }}
@@ -344,13 +355,28 @@ class App extends React.Component {
 
                             <Row className="mt-3">
                                 <Col>
-                                    <Form.Check type={"checkbox"} label={"Pneumatiky"} id={"pneu"} onChange={(e) => {this.check(e, 'pneu')}}/>
-                                    <Form.Check type={"checkbox"} label={"Výměna oleje"} id={"oil"} onChange={(e) => {this.check(e, 'oil')}}/>
-                                    <Form.Check type={"checkbox"} label={"Baterie"} id={"battery"} onChange={(e) => {this.check(e, 'battery')}}/>
-                                    <Form.Check type={"checkbox"} label={"Klimatizace"} id={"ac"} onChange={(e) => {this.check(e, 'ac')}}/>
-                                    <Form.Check type={"checkbox"} label={"Stěrače"} id={"wiper"} onChange={(e) => {this.check(e, 'wiper')}}/>
-                                    <Form.Check type={"checkbox"} label={"Kompletní servis"} id={"complete"} onChange={(e) => {this.check(e, 'complete')}}/>
-                                    <Form.Check type={"checkbox"} label={"Geometrie"} id={"geometry"} onChange={(e) => {this.check(e, 'geometry')}}/>
+                                    <Form.Check type={"checkbox"} label={"Pneumatiky"} id={"pneu"} onChange={(e) => {
+                                        this.check(e, 'PNEU')
+                                    }}/>
+                                    <Form.Check type={"checkbox"} label={"Výměna oleje"} id={"oil"} onChange={(e) => {
+                                        this.check(e, 'OIL')
+                                    }}/>
+                                    <Form.Check type={"checkbox"} label={"Baterie"} id={"battery"} onChange={(e) => {
+                                        this.check(e, 'BATTERY')
+                                    }}/>
+                                    <Form.Check type={"checkbox"} label={"Klimatizace"} id={"ac"} onChange={(e) => {
+                                        this.check(e, 'AC')
+                                    }}/>
+                                    <Form.Check type={"checkbox"} label={"Stěrače"} id={"wiper"} onChange={(e) => {
+                                        this.check(e, 'WIPER')
+                                    }}/>
+                                    <Form.Check type={"checkbox"} label={"Kompletní servis"} id={"complete"}
+                                                onChange={(e) => {
+                                                    this.check(e, 'COMPLETE')
+                                                }}/>
+                                    <Form.Check type={"checkbox"} label={"Geometrie"} id={"geometry"} onChange={(e) => {
+                                        this.check(e, 'GEOMETRY')
+                                    }}/>
                                 </Col>
                                 <Col>
                                     <DisplayItems>{this.state.data}</DisplayItems>
@@ -359,8 +385,13 @@ class App extends React.Component {
 
                             <Row>
                                 <Col style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                    <Form.Label style={{fontSize:'32px', fontStyle:'bold'}}>{this.labels.accepted}</Form.Label>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                                     <Button variant="primary" disabled={this.button}
-                                            onClick={this.postToBack} type="submit">Uložit</Button>
+                                            onClick={this.postToBack}>Uložit</Button>
                                 </Col>
                             </Row>
 
