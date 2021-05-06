@@ -2,6 +2,9 @@ package sample.database;
 
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Class for visualization of selected parts of the Order objects in table in main window
+ */
 public class TableDisplayStructure {
     private String date;
     private String timeRange;

@@ -14,6 +14,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * Controls main stage (list of orders)
+ */
 public class TableController implements Initializable {
 
     @FXML
@@ -75,10 +78,6 @@ public class TableController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         connection = Connector.connect();
-//        ArrayList<Person> temp = DBSOperations.getList(connection);
-//        for (Person person : temp) {
-//            list.add(person);
-//        }
         listOfOrders = new ArrayList<>();
         columnName.setCellValueFactory(new PropertyValueFactory<TableDisplayStructure, String>("name"));
         columnSurname.setCellValueFactory(new PropertyValueFactory<TableDisplayStructure, String>("surname"));
@@ -116,7 +115,6 @@ public class TableController implements Initializable {
 
     }
 
-    //TODO
     public void remove() {
             setSelectedOrder();
             if (getSelectedOrder() == null){
@@ -124,13 +122,6 @@ public class TableController implements Initializable {
             }
             DBSOperations.remove(connection,getSelectedOrder());
             refresh();
-//        ObservableList<TableDisplayStructure> personSelected, allPersons;
-//        allPersons = table.getItems();
-//        personSelected = table.getSelectionModel().getSelectedItems();
-//        if (personSelected.isEmpty()) return;
-//        personSelected.forEach(allPersons::remove);
-        //list.remove(personSelected);
-        //DBSOperations.remove(connection, personSelected.get(0));
     }
 
     private ArrayList<TableDisplayStructure> makeTDSList(ArrayList<Order> orders){

@@ -115,7 +115,7 @@ class App extends React.Component {
     }
 
     checkEmail = (text, name) => {
-        if (!/^[a-zA-Z.]+@[a-zA-Z]+.[a-zA-Z.]+$/.test(text.toLowerCase())) {
+        if (!/^[a-zA-Z.]+@[a-zA-Z]+\.[a-zA-Z.]+$/.test(text.toLowerCase())) {
             this.setLabel(text, name, true)
         } else {
             this.setLabel(text, name, false)
@@ -177,7 +177,7 @@ class App extends React.Component {
                 this.labels.accepted = "Nastala chyba";
             }
             console.log(this.labels);
-            this.errors += 100;
+            this.errors += 1;
             this.setButton();
             this.forceUpdate();
         }, (error) => {

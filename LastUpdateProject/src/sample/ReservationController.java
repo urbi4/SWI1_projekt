@@ -1,7 +1,7 @@
 
 package sample;
 
-        import javafx.collections.FXCollections;
+import javafx.collections.FXCollections;
         import javafx.collections.ObservableList;
         import javafx.fxml.FXML;
         import javafx.fxml.Initializable;
@@ -16,6 +16,9 @@ package sample;
         import java.time.format.DateTimeFormatter;
         import java.util.*;
 
+/**
+ * Controls reservation/edit stage
+ */
 public class ReservationController implements Initializable {
 
     @FXML
@@ -129,8 +132,6 @@ public class ReservationController implements Initializable {
     @FXML
     private Label wrongEmail;
 
-
-
     private Order orderToLoad;
     private ObservableList<String> toAdd;
     private ObservableList<String> choose;
@@ -157,15 +158,21 @@ public class ReservationController implements Initializable {
         setOrderToLoad(orderToLoad);
     }
 
-
+    /**
+     * According to the result of check, creates or disposes new order
+     */
     public void saveOrder() {
         setVisibility();
         Order order = checkInputFromUser();
-        if (order == null){return;} // CHYBA
+        if (order == null){return;}
         if(orderToLoad != null) DBSOperations.remove(connection,orderToLoad);
         DBSOperations.add(connection, order);
     }
 
+    /**
+     * Sets order that was selected by user
+     * @param orderToLoad
+     */
     private void setOrderToLoad(Order orderToLoad) {
         name.setText(orderToLoad.getPerson().getName());
         surname.setText(orderToLoad.getPerson().getSurname());
@@ -180,6 +187,10 @@ public class ReservationController implements Initializable {
         checkCheckboxes(orderToLoad);
     }
 
+    /**
+     * Sets states of checkboxes according to the selected order
+     * @param orderToLoad selected order
+     */
     private void checkCheckboxes(Order orderToLoad) {
         Map<String, CheckBox> checkBoxes = new TreeMap<>(){{
             put("PNEU",pneuCB);
@@ -197,6 +208,10 @@ public class ReservationController implements Initializable {
         }
     }
 
+    /**
+     * Checks inserted values
+     * @return Returns validated order if it's successful
+     */
     private Order checkInputFromUser() {
         String name = this.name.getText();
         String surname = this.surname.getText();
@@ -224,10 +239,6 @@ public class ReservationController implements Initializable {
             }
         }
 
-//        if(!email.contains(".cz") || !email.contains(".com")){
-//            wrongEmail.setVisible(true);
-//            return null;
-//        }
         if (!email.contains(".cz") && (!email.contains("@")) || (!email.contains(".com") && !email.contains("@"))){
             wrongEmail.setVisible(true);
             return null;
@@ -252,7 +263,7 @@ public class ReservationController implements Initializable {
             wrongNumber.setVisible(true);
             return null;
         }
-        if((phone.isEmpty() || phone.length() != 13) && (!phone.startsWith("+421") || !phone.startsWith("+420"))){
+        if((phone.length() != 13) && (!phone.startsWith("+421") || !phone.startsWith("+420"))){
             wrongPhone.setVisible(true);
             return null;
         }
@@ -273,6 +284,10 @@ public class ReservationController implements Initializable {
         return new Order(null,localDate,person,vehicle,checkBoxes,newTime,null);
     }
 
+    /**
+     * Gets info about what checkboxes are checked - problems
+     * @return Returns selected problems
+     */
     private ArrayList<String> getCheckboxes() {
         ArrayList<CheckBox> checkBoxes = new ArrayList<>();
         String[] names = {"PNEU","OIL","BATTERY","AC","WIPER","COMPLETE","GEOMETRY"}; //LINK NA DB ?
@@ -286,10 +301,16 @@ public class ReservationController implements Initializable {
         return result;
     }
 
+    /**
+     * Changes scene to primary window
+     */
     public void changeSceneToTable() throws Exception {
         SceneManager.changeScene("table.fxml");
     }
 
+    /**
+     * Hides warning labels
+     */
     private void setVisibility(){
         missingInfo.setVisible(false);
         wrongPhone.setVisible(false);

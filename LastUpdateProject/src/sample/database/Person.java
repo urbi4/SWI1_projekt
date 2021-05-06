@@ -1,5 +1,9 @@
 package sample.database;
 
+/**
+ * Class mirroring table from database for storage data handling
+ */
+
 public class Person {
     private String name;
     private String surname;

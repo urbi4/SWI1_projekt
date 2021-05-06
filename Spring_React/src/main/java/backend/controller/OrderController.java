@@ -13,11 +13,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * Controls order managing, solves requests from frontend
+ */
 @RestController
 public class OrderController {
 
@@ -43,6 +47,11 @@ public class OrderController {
         this.problemRepository = problemRepository;
     }
 
+    /**
+     * Solves request from frontend for available times at selected date
+     * @param value Selected date
+     * @return Returns times
+     */
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/times")
     ArrayList<String> getTimes(@RequestParam(name = "value", required = false, defaultValue = "default") String value) {
@@ -74,9 +83,14 @@ public class OrderController {
 
     }
 
+    /**
+     * Solves post from frontend, checks and creates new order if accepted
+     * @param line input from frontend
+     * @return Returns result of validation
+     */
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/orders")
-    ResponseEntity<Boolean> getNewOrder(@RequestBody String line) {
+    ResponseEntity<Boolean> makeNewOrder(@RequestBody String line) {
 
         JSONObject data = null;
         try {
@@ -87,7 +101,7 @@ public class OrderController {
 
         log.info(data.toString());
 
-        //check(newOrder); //TODO
+        boolean accepted = false;
 
         try {
             Address address = new Address();
@@ -159,26 +173,84 @@ public class OrderController {
                 ordersHasProblemsToSave.add(ordersHasProblem);
             }
 
-            log.info(ordersHasProblemsToSave.toString());
+            Orders newOrder = check(order);
 
-            addressRepository.save(address);
-            personRepository.save(person);
-            vehicleRepository.save(vehicle);
-            repository.save(order);
-            for (OrdersHasProblem ordersHasProblem : ordersHasProblemsToSave) {
-                ordersHasProblemRepository.save(ordersHasProblem);
+            if (newOrder!=null) {
+                log.info(ordersHasProblemsToSave.toString());
+
+                addressRepository.save(address);
+                personRepository.save(person);
+                vehicleRepository.save(vehicle);
+                repository.save(newOrder);
+                for (OrdersHasProblem ordersHasProblem : ordersHasProblemsToSave) {
+                    ordersHasProblemRepository.save(ordersHasProblem);
+                }
+                accepted = true;
+            }else  {
+                accepted = false;
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        boolean accepted = true;
-
         return new ResponseEntity<>(accepted, HttpStatus.ACCEPTED);
     }
 
-    private void check(Orders newOrder) {
+    private Orders check(Orders newOrder) {
+        String name = newOrder.getPerson().getName();
+        String surname = newOrder.getPerson().getSurname();
+        String street = newOrder.getPerson().getAddress().getStreet();
+        String city = newOrder.getPerson().getAddress().getCity();
+        int houseNumber = newOrder.getPerson().getAddress().getHouseNumber();
+        String plate = newOrder.getVehicle().getPlateNumber();
+        Time startWork = newOrder.getTimerange().getTimeOfStart();
+        Time endWork = newOrder.getTimerange().getTimeOfEnd();
+        Date date = newOrder.getDate();
+        String email = newOrder.getPerson().getEmail();
+        String phone = newOrder.getPerson().getPhoneNumber();
+        LocalDate timeNow = LocalDate.now();
+        ArrayList<Object> results = new ArrayList<>();
+        results.add(Collections.addAll(Arrays.asList(name, surname, street, city, houseNumber, plate, startWork, endWork,date,email,phone)));
+        results.addAll(Arrays.asList(name, surname, street, city, houseNumber, plate, startWork, endWork,date,email,phone));
+        for (Object result : results) {
+            if (result == null || result.equals("")) {
+                return null;
+            }
+        }
+
+        if (!email.contains(".cz") && (!email.contains("@")) || (!email.contains(".com") && !email.contains("@"))){
+            return null;
+        }
+
+        if(startWork.toLocalTime().isAfter(endWork.toLocalTime())){
+            return null;
+        }
+
+        if(date.toLocalDate().isBefore(timeNow)){
+            return null;
+        }
+
+        if(plate.isEmpty() || plate.length() < 5 || plate.length() > 8){
+            return null;
+        }
+
+        if(date == null || date.toString().isEmpty()){
+            return null;
+        }
+
+        if(houseNumber < 0){
+            return null;
+        }
+        if((phone.isEmpty() || phone.length() != 13) && (!phone.startsWith("+420"))){
+            return null;
+        }
+
+        if (email.isEmpty() && phone.isEmpty()) {
+            return null;
+        }
+
+        return newOrder;
     }
 
 }

@@ -1,5 +1,8 @@
 package sample.database;
 
+/**
+ * Class mirroring table from database for storage data handling
+ */
 public class Address {
     private String city;
     private String street;

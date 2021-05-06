@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+/**
+ * Loads data from database to repositories
+ */
 @Component
 public class OrderDatabaseLoader implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(OrderController.class);

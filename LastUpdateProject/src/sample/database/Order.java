@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+/**
+ * Class mirroring table from database for storage data handling
+ */
+
 public class Order {
     private Integer id;
     private LocalDate  date;

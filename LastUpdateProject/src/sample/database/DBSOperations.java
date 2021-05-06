@@ -9,8 +9,16 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Class for handling SQL commands between Java and database
+ */
 public class DBSOperations {
 
+    /**
+     * Adds new order to database
+     * @param connection
+     * @param order order to be added
+     */
     public static void add(Connection connection, Order order) {
         try {
 
@@ -35,6 +43,12 @@ public class DBSOperations {
         }
     }
 
+    /**
+     * Gets times at specific date that are not taken by two people
+     * @param connection
+     * @param localDate selected date
+     * @return
+     */
     public static String[] getAvailableTimes(Connection connection, LocalDate localDate){
         ArrayList<String> allTimes = getAllTimes(connection);
         Set<String> setOfTimes = new HashSet<>();
@@ -76,6 +90,11 @@ public class DBSOperations {
         return export;
     }
 
+    /**
+     * Gets vehicle types that are stored in database
+     * @param connection
+     * @return
+     */
     public static String[] getTypes(Connection connection){
         ArrayList<String> export = new ArrayList<>();
         try {
@@ -92,6 +111,12 @@ public class DBSOperations {
         return export.toArray(new String[0]);
     }
 
+    /**
+     * Gets problems of specific order that are stored in database
+     * @param con
+     * @param id orders id
+     * @return
+     */
     public static ArrayList<String> getProblems(Connection con, Integer id){
         ArrayList<String> export = new ArrayList<>();
         try {
@@ -107,6 +132,12 @@ public class DBSOperations {
         return export;
     }
 
+    /**
+     * Gets all orders on specific date
+     * @param con
+     * @param date chosen date
+     * @return
+     */
     public static ArrayList<Order> getList(Connection con, LocalDate date){
         ArrayList<Order> export = new ArrayList<>();
         try {
@@ -139,6 +170,11 @@ public class DBSOperations {
         return export;
     }
 
+    /**
+     * Removes order from database
+     * @param connection
+     * @param order order to be removed
+     */
     public static void remove(Connection connection, Order order){
         int person_id = getPersonId(connection,order);
         int vehicle_id = getVehicleId(connection,order);
@@ -205,25 +241,4 @@ public class DBSOperations {
         return export;
     }
 
-    public static void remove(Connection con,Person person){
-        try{
-            String s = "Delete from customer where name = '"+person.getName()+"';";
-            PreparedStatement preparedStatement = con.prepareStatement(s);
-            preparedStatement.execute();
-
-        }catch (SQLException throwables){
-            throwables.printStackTrace();
-        }
-    }
-
-//    public static void update(Connection con, Person person){
-//        try{
-//            String s = "Update customer set name = '"+person.getName()+"',surname = '"+person.getSurname()+"',address ='"+person.getAddress()+"',phone = '"+person.getPhone()+"',date ='"+person.getDate()+"',time = '"+person.getTime()+"' where name = '" + person.getName()+"';";
-//            PreparedStatement preparedStatement = con.prepareStatement(s);
-//            preparedStatement.execute();
-//        }catch (SQLException throwables){
-//            throwables.printStackTrace();
-//        }
-//
-//    }
 }
